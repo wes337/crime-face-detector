@@ -34,13 +34,15 @@ function App() {
       video.src = URL.createObjectURL(localMediaStream);
     }
 
-    await video.play();
+    //    await video.play();
   };
 
   const setupMl = async () => {
     const featureExtractor = await ml5.featureExtractor("MobileNet");
     setFeatureExtractor(featureExtractor);
-    await knnClassifier.load("./assets/knn.json");
+    await knnClassifier.load(
+      "https://f004.backblazeb2.com/file/wes337/knn.json"
+    );
   };
 
   onMount(async () => {

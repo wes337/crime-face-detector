@@ -6,7 +6,6 @@ export default defineConfig({
   plugins: [solidPlugin()],
   server: {
     port: 3000,
-    https: true,
   },
   build: {
     target: "esnext",
