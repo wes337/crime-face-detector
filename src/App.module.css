@@ -20,6 +20,10 @@
   font-size: 28px;
 }
 
+.analyzing {
+  z-index: 2;
+}
+
 .crime {
   position: fixed;
   top: 50%;

@@ -34,7 +34,7 @@ function App() {
       video.src = URL.createObjectURL(localMediaStream);
     }
 
-    //    await video.play();
+    await video.play();
   };
 
   const setupMl = async () => {
@@ -53,16 +53,21 @@ function App() {
   });
 
   const analyze = async () => {
-    setAnalyzing(true);
     const features = featureExtractor().infer(video);
     const results = await knnClassifier.classify(features);
-
     const crime = getTopCrime(results);
     setCrime(crime);
     const secondaryCrimes = getSecondaryCrimes(results);
     setSecondaryCrimes(secondaryCrimes);
+  };
 
-    setAnalyzing(false);
+  const onClick = async () => {
+    setAnalyzing(true);
+
+    setTimeout(async () => {
+      await analyze();
+      setAnalyzing(false);
+    }, 0);
   };
 
   return (
@@ -70,9 +75,9 @@ function App() {
       <Show when={loading()}>
         <div class={styles.loading}>Loading</div>
       </Show>
-      <Show when={analyzing()}>
-        <div class={styles.analyzing}>Analyzing...</div>
-      </Show>
+
+      {analyzing() && <div class={styles.analyzing}>Analyzing...</div>}
+
       <Show when={crime()}>
         <div class={styles.crime}>
           <h1>{crime()}</h1>
@@ -86,7 +91,7 @@ function App() {
       </div>
       <button
         class={styles.analyze}
-        onClick={analyze}
+        onClick={onClick}
         disabled={analyzing() || loading()}
       >
         Analyze
