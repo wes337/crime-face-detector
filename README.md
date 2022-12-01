@@ -6,4 +6,4 @@ Ideally this will be used whenever you open your phone with facial recognition _
 
 This should be sold to the government, so we can preemptively arrest criminals, like yourself.
 
-[Try it out!](https://wesley.codes/criminal-face-detector)
+[Try it out!](https://wesley.codes/crime-face-detector/)
