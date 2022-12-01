@@ -40,7 +40,7 @@ function App() {
   const setupMl = async () => {
     const featureExtractor = await ml5.featureExtractor("MobileNet");
     setFeatureExtractor(featureExtractor);
-    await knnClassifier.load("/src/assets/knn.json");
+    await knnClassifier.load("./assets/knn.json");
   };
 
   onMount(async () => {
