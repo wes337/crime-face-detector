@@ -1,34 +1,9 @@
-## Usage
+# Crime Face Detector
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+Thanks to a detailed dataset of ~70,000 criminal mugshots provided by the [Illinois State Department of Corrections](https://www.kaggle.com/datasets/davidjfisher/illinois-doc-labeled-faces-dataset?resource=download), we can harness the powers of AI and machine learning to determine what crimes you will be most likely to commit, based on your facial features.
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+Ideally this will be used whenever you open your phone with facial recognition _(and immediately forward the results to your nearest law enforcement agency)_, or before boarding planes.
 
-```bash
-$ npm install # or pnpm install or yarn install
-```
+This should be sold to the government, so we can preemptively arrest criminals, like yourself.
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm dev` or `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+[Try it out!](https://wesley.codes/criminal-face-detector)
