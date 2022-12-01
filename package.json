@@ -18,7 +18,8 @@
     "vite-plugin-solid": "^2.3.0"
   },
   "dependencies": {
-    "ml5": "^0.12.2",
+    "@teachablemachine/image": "^0.8.5",
+    "@tensorflow/tfjs": "^1.7.4",
     "solid-js": "^1.5.1"
   }
 }

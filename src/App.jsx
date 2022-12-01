@@ -1,12 +1,13 @@
 import { createSignal, onMount, Show, For } from "solid-js";
-import ml5 from "ml5";
-import { getSecondaryCrimes, getTopCrime } from "./functions";
+import * as tmImage from "@teachablemachine/image";
 import styles from "./App.module.css";
+
+const URL = "https://teachablemachine.withgoogle.com/models/4sZyLhsE9/";
 
 function App() {
   let video;
-  const knnClassifier = ml5.KNNClassifier();
-  const [featureExtractor, setFeatureExtractor] = createSignal();
+
+  const [model, setModel] = createSignal();
   const [analyzing, setAnalyzing] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
   const [crime, setCrime] = createSignal("");
@@ -38,11 +39,10 @@ function App() {
   };
 
   const setupMl = async () => {
-    const featureExtractor = await ml5.featureExtractor("MobileNet");
-    setFeatureExtractor(featureExtractor);
-    await knnClassifier.load(
-      "https://f004.backblazeb2.com/file/wes337/knn.json"
-    );
+    const modelUrl = URL + "model.json";
+    const metadataUrl = URL + "metadata.json";
+    const model = await tmImage.load(modelUrl, metadataUrl);
+    setModel(model);
   };
 
   onMount(async () => {
@@ -53,12 +53,18 @@ function App() {
   });
 
   const analyze = async () => {
-    const features = featureExtractor().infer(video);
-    const results = await knnClassifier.classify(features);
-    const crime = getTopCrime(results);
-    setCrime(crime);
-    const secondaryCrimes = getSecondaryCrimes(results);
-    setSecondaryCrimes(secondaryCrimes);
+    const predictions = await model().predict(video);
+
+    const sortedPredictions = predictions
+      .map((p) => ({
+        name: p.className,
+        probability: p.probability.toFixed(2),
+      }))
+      .filter((p) => p.probability > 0)
+      .sort((a, b) => Number(b.probability) - Number(a.probability));
+
+    setCrime(sortedPredictions[0].name);
+    setSecondaryCrimes(sortedPredictions.slice(1, 3).map((p) => p.name));
   };
 
   const onClick = async () => {
