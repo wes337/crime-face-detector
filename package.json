@@ -20,6 +20,7 @@
   "dependencies": {
     "@teachablemachine/image": "^0.8.5",
     "@tensorflow/tfjs": "^1.7.4",
+    "ml5": "^0.12.2",
     "solid-js": "^1.5.1"
   }
 }

@@ -1,5 +1,6 @@
 import { createSignal, onMount, Show, For } from "solid-js";
 import * as tmImage from "@teachablemachine/image";
+import ml5 from "ml5";
 import styles from "./App.module.css";
 
 const URL = "https://teachablemachine.withgoogle.com/models/4sZyLhsE9/";
@@ -8,6 +9,7 @@ function App() {
   let video;
 
   const [model, setModel] = createSignal();
+  const [faceDetected, setFaceDetected] = createSignal(false);
   const [analyzing, setAnalyzing] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
   const [crime, setCrime] = createSignal("");
@@ -47,10 +49,21 @@ function App() {
 
   onMount(async () => {
     setLoading(true);
-    await setupWebcam();
-    await setupMl();
-    setLoading(false);
+    setTimeout(async () => {
+      await setupWebcam();
+      await detectFaces();
+      await setupMl();
+      setLoading(false);
+    }, 0);
   });
+
+  const detectFaces = async () => {
+    const facemesh = await ml5.facemesh(video);
+
+    facemesh.on("face", (results) => {
+      setFaceDetected(results.length > 0);
+    });
+  };
 
   const analyze = async () => {
     const predictions = await model().predict(video);
@@ -82,9 +95,15 @@ function App() {
         <div class={styles.loading}>Loading</div>
       </Show>
 
-      {analyzing() && <div class={styles.analyzing}>Analyzing...</div>}
+      <Show when={!faceDetected() && !loading()}>
+        <div class={styles.loading}>No Face Detected</div>
+      </Show>
 
-      <Show when={crime()}>
+      <Show when={analyzing()}>
+        <div class={styles.analyzing}>Analyzing...</div>
+      </Show>
+
+      <Show when={faceDetected() && crime()}>
         <div class={styles.crime}>
           <h1>{crime()}</h1>
           <For each={secondaryCrimes()}>
@@ -98,7 +117,7 @@ function App() {
       <button
         class={styles.analyze}
         onClick={onClick}
-        disabled={analyzing() || loading()}
+        disabled={analyzing() || loading() || !faceDetected()}
       >
         Analyze
       </button>
