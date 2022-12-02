@@ -16,8 +16,10 @@
   right: 50%;
   transform: translate(50%, -50%);
   z-index: 1;
-  color: red;
+  color: lawngreen;
   font-size: 28px;
+  font-weight: bold;
+  text-shadow: 4px 4px black;
 }
 
 .analyzing {
@@ -31,12 +33,23 @@
   transform: translate(50%, -50%);
   z-index: 1;
   color: red;
+  text-shadow: 4px 4px black;
+  font-weight: bold;
   text-align: center;
+  text-transform: uppercase;
+}
+
+span {
+  color: white;
+  text-transform: none;
 }
 
 h2 {
   font-size: 24px;
   color: darkred;
+  text-shadow: 4px 4px black;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .camera {
@@ -54,13 +67,30 @@ video {
   object-fit: fill;
 }
 
-.analyze {
+.analyze,
+.reset {
   position: absolute;
-
   font-size: 28px;
+  font-weight: bold;
   bottom: 100px;
+  font-family: "Orbitron", sans-serif;
+  background-color: darkred;
+  padding: 10px;
+  text-transform: uppercase;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.analyze:hover {
+  background-color: red;
 }
 
 .analyze:disabled {
+  cursor: initial;
   opacity: 0.5;
+}
+
+.analyze:disabled:hover {
+  background-color: darkred;
 }

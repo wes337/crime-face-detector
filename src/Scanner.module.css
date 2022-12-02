@@ -1,0 +1,22 @@
+.scanner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 10vh;
+  width: 100vw;
+  z-index: 2;
+  content: " ";
+  background-color: green;
+  mix-blend-mode: lighten;
+  animation: 1s infinite alternate scan;
+}
+
+@keyframes scan {
+  from {
+    top: 0;
+  }
+
+  to {
+    top: 100%;
+  }
+}

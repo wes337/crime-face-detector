@@ -2,6 +2,7 @@ import { createSignal, onMount, Show, For } from "solid-js";
 import * as tmImage from "@teachablemachine/image";
 import ml5 from "ml5";
 import styles from "./App.module.css";
+import Scanner from "./Scanner";
 
 const URL = "https://teachablemachine.withgoogle.com/models/4sZyLhsE9/";
 
@@ -86,13 +87,18 @@ function App() {
     setTimeout(async () => {
       await analyze();
       setAnalyzing(false);
-    }, 0);
+    }, 1000);
+  };
+
+  const reset = () => {
+    setCrime("");
+    setSecondaryCrimes([]);
   };
 
   return (
     <div class={styles.app}>
       <Show when={loading()}>
-        <div class={styles.loading}>Loading</div>
+        <div class={styles.loading}>Loading...</div>
       </Show>
 
       <Show when={!faceDetected() && !loading()}>
@@ -100,11 +106,13 @@ function App() {
       </Show>
 
       <Show when={faceDetected() && analyzing()}>
+        <Scanner />
         <div class={styles.analyzing}>Analyzing...</div>
       </Show>
 
-      <Show when={faceDetected() && crime()}>
+      <Show when={faceDetected() && crime() && !analyzing()}>
         <div class={styles.crime}>
+          <span>Most likely to commit:</span>
           <h1>{crime()}</h1>
           <For each={secondaryCrimes()}>
             {(secondaryCrime) => <h2>{secondaryCrime}</h2>}
@@ -114,13 +122,22 @@ function App() {
       <div class={styles.camera}>
         <video ref={video} muted autoplay playsinline />
       </div>
-      <button
-        class={styles.analyze}
-        onClick={onClick}
-        disabled={analyzing() || loading() || !faceDetected()}
+      <Show
+        when={faceDetected() && crime() && !analyzing()}
+        fallback={
+          <button
+            class={styles.analyze}
+            onClick={onClick}
+            disabled={analyzing() || loading() || !faceDetected()}
+          >
+            Analyze Face For Crime
+          </button>
+        }
       >
-        Analyze
-      </button>
+        <button class={styles.reset} onClick={reset}>
+          Reset
+        </button>
+      </Show>
     </div>
   );
 }
