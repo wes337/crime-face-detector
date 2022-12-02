@@ -99,7 +99,7 @@ function App() {
         <div class={styles.loading}>No Face Detected</div>
       </Show>
 
-      <Show when={analyzing()}>
+      <Show when={faceDetected() && analyzing()}>
         <div class={styles.analyzing}>Analyzing...</div>
       </Show>
 
