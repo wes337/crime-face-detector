@@ -8,7 +8,7 @@
   content: " ";
   background-color: green;
   mix-blend-mode: lighten;
-  animation: 1s infinite alternate scan;
+  animation: 0.5s infinite alternate-reverse scan;
 }
 
 @keyframes scan {

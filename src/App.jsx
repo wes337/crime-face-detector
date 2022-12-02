@@ -100,16 +100,13 @@ function App() {
       <Show when={loading()}>
         <div class={styles.loading}>Loading...</div>
       </Show>
-
       <Show when={!faceDetected() && !loading()}>
         <div class={styles.loading}>No Face Detected</div>
       </Show>
-
       <Show when={faceDetected() && analyzing()}>
         <Scanner />
         <div class={styles.analyzing}>Analyzing...</div>
       </Show>
-
       <Show when={faceDetected() && crime() && !analyzing()}>
         <div class={styles.crime}>
           <span>Most likely to commit:</span>
