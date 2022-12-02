@@ -14,6 +14,8 @@ function App() {
   const [analyzing, setAnalyzing] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
   const [crime, setCrime] = createSignal("");
+  const [tries, setTries] = createSignal(0);
+  const [crimes, setCrimes] = createSignal([]);
   const [secondaryCrimes, setSecondaryCrimes] = createSignal([]);
 
   const setupWebcam = async () => {
@@ -77,8 +79,26 @@ function App() {
       .filter((p) => p.probability > 0)
       .sort((a, b) => Number(b.probability) - Number(a.probability));
 
-    setCrime(sortedPredictions[0].name);
-    setSecondaryCrimes(sortedPredictions.slice(1, 3).map((p) => p.name));
+    setCrimes([...crimes(), sortedPredictions[0].name]);
+
+    setTries(tries() + 1);
+
+    if (tries() < 30) {
+      analyze();
+    } else {
+      const counts = {};
+
+      crimes().forEach((crime) => {
+        counts[crime] = (counts[crime] || 0) + 1;
+      });
+
+      const arr = Object.keys(counts);
+      arr.sort((a, b) => Number(counts[b]) - Number(counts[a]));
+
+      setCrime(arr[0]);
+      setSecondaryCrimes(arr.slice(1, 3));
+      setAnalyzing(false);
+    }
   };
 
   const onClick = async () => {
@@ -86,13 +106,13 @@ function App() {
 
     setTimeout(async () => {
       await analyze();
-      setAnalyzing(false);
     }, 1000);
   };
 
   const reset = () => {
     setCrime("");
     setSecondaryCrimes([]);
+    setTries(0);
   };
 
   return (
